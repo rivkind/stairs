@@ -44,7 +44,7 @@ archive.finalize();
 const { exec } = require('child_process');
 
 // Where would the file be located?
-let dumpFile = 'backup' + curr_year + "-" + curr_month + "-" + curr_date + '.sql';
+let dumpFile = 'backup.sql';
 
 // Database connection settings.
 let exportFrom = {
