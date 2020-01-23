@@ -1,0 +1,25 @@
+<table class="table">
+  <thead>
+    <tr>
+      <td colspan="2" align="right"><a href="/admin/images/add" class="btn btn-primary">Добавить изображение</a></td>
+    </tr>
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Url</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#if items.length}}
+      {{#each items}}
+     <tr>
+      <td><a href="/admin/images/{{code}}">{{code}}</a></td>
+      <td>{{url}}</td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr>
+      <td colspan="2">Нет записей</td>
+    </tr>
+    {{/if}}
+  </tbody>
+</table>

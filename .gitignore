@@ -1,0 +1,7 @@
+/node_modules
+/static/img
+/backup
+/uploads
+.env
+sitemap.xml
+requests.rest

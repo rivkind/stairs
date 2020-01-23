@@ -1,0 +1,17 @@
+<table class="table">
+  <thead>
+    <tr>
+      <td align="right"><a href="/admin/pages/add" class="btn btn-primary">Добавить страницу</a></td>
+    </tr>
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each items}}
+     <tr>
+      <td><a href="/admin/pages/{{url}}">{{title}}</a></td>
+    </tr>
+{{/each}}
+  </tbody>
+</table>

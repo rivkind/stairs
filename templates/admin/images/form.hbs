@@ -1,0 +1,16 @@
+<form method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="nameInput">Code</label>
+    <input type="text" class="form-control" id="nameInput" placeholder="Name" name="name" value="{{data.code}}">
+  </div>
+ {{#if data.id}}
+  <div class="form-group">
+    <img src="{{data.url}}" width="100px" />
+  </div>
+  {{/if}} 
+  <div class="form-group">
+    <label for="imgInput">Image</label>
+    <input type="file" class="form-control-file" id="imgInput" name="image">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

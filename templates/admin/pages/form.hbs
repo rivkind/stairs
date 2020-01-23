@@ -1,0 +1,122 @@
+<form id="form" method="post"><input type="hidden" id="structure" name="structure" />
+<div class="form-group">
+    <label for="title">Заголовок</label>
+    <input type="text" class="form-control" name="title" id="title" value="{{pages.title}}">
+</div>
+<div class="form-group">
+    <label for="title">Описание</label>
+    <input type="text" class="form-control" name="description" id="description" value="{{pages.description}}">
+</div>
+<div class="form-group">
+    <label for="title">Ключевые слова</label>
+    <input type="text" class="form-control" name="keywords" id="keywords" value="{{pages.keywords}}">
+</div>
+<div class="form-group">
+    <label for="title">Ссылка</label>
+    <input type="text" class="form-control" name="url" id="url" value="{{pages.url}}">
+</div>
+<div class="form-group form-check">
+  {{#if pages.auth}}
+    <input type="checkbox" class="form-check-input" id="checkClose" name="auth" value="1" checked />
+    {{else}}
+    <input type="checkbox" class="form-check-input" id="checkClose" name="auth" value="1" />
+    {{/if}}
+    <label class="form-check-label" for="checkClose">Закрытая страница</label>
+</div>
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-7"></div>
+        <div class="col-2">
+            <select id="block"  class="form-control form-control-sm"></select>
+        </div>
+        <div class="col-2">
+            <select id="type" class="form-control form-control-sm">
+                <option value="">Выберите тип</option>
+                {{#each types}}
+                <option value="{{code}}">{{name}}</option>
+                {{/each}}
+                
+            </select>
+        </div>
+        <div class="col-1">
+            <button id="button" type="submit" class="btn btn-primary btn-sm">Добавить</button>
+        </div>
+    </div>
+</div>
+<div class="structure">
+    <div class="row">
+        <div class="col" id="main"></div>
+    </div>
+</div>
+<button class="btn btn-primary" id="btnSave">Сохранить</button></form>
+<div class="modal fade" id="modalHeader" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Добавить заголовок</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalContent">
+          <input type="text" class="form-control" id="inputHeader" placeholder="Заголовок">
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="buttonHeader">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalImg" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Добавить изображение</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalContent">
+          <select id="selectImages"></select>
+          <div id="modalImgBlock"></div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="buttonImage">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalFormat" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Добавить заголовок</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalContent">
+          <textarea id="textarea"></textarea>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="buttonTextarea">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    const images = {{{images}}};
+    const news = true;
+    const stre = false;
+    const blocks = {{{data}}};
+
+</script>
+<script src="/js/structure.js"></script>
+<script src="/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script>tinymce.init({selector:'textarea'});</script>
+

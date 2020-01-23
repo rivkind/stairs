@@ -1,0 +1,17 @@
+<table class="table">
+  <thead>
+    <tr>
+      <td align="right"><a href="/admin/news/add" class="btn btn-primary">Добавить новость</a></td>
+    </tr>
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each items}}
+     <tr>
+      <td><a href="/admin/news/{{url}}">{{title}}</a></td>
+    </tr>
+{{/each}}
+  </tbody>
+</table>

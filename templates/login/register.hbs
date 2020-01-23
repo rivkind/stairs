@@ -1,0 +1,24 @@
+<form class="form-signin" method="post">
+  <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+  {{#if error}}
+  <div class="alert alert-danger" role="alert">
+    {{error}}
+  </div>
+  {{/if}}
+  {{#if success}}
+    <div>Вы успешно зарегистрировались. Вам на почту было выслано письмо для подтверждения регистрации. Сейчас можете <a href="/users/login">войти</a> на сайт!</div>
+  {{else}}
+  <label for="inputEmail" class="sr-only">Email</label>
+  <input type="email" id="inputEmail" class="form-control" name='email' placeholder="Email" required="" autofocus="" value={{data.email}}>
+  <label for="inputPassword" class="sr-only">Пароль</label>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" name="password" required="">
+  <label for="inputPassword2" class="sr-only">Повторить пароль</label>
+  <input type="password" id="inputPassword2" class="form-control" placeholder="Повторить пароль" name="password2" required="">
+  <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Зарегистрироваться</button>
+  <div class="mb-3">
+    <a class="mr-5" href="/">Главная</a><a href="/users/login">Войти</a>
+  </div>
+  {{/if}}
+  
+  <p class="text-muted">© 2020</p>
+</form>
