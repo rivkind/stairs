@@ -1,4 +1,3 @@
-require('dotenv').config()
 var fs = require('fs');
 var archiver = require('archiver');
 
@@ -45,14 +44,15 @@ archive.finalize();
 const { exec } = require('child_process');
 
 // Where would the file be located?
-let dumpFile = 'backup' + curr_year + "-" + curr_month + "-" + curr_date + '.sql';
+let dumpFile = 'backup/db/backup' + curr_year + "-" + curr_month + "-" + curr_date + '.sql';
 
 // Database connection settings.
 let exportFrom = {
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_NAME,
+	host: "localhost",
+	user: "root",
+	password: "1234",
+	database: "stairs"
+
 }
 let importTo = {
 	host: "localhost",
