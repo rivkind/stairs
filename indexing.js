@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { getUrls } = require("./utils/urlUtils");
 const { removeTags } = require("./utils/utils");
 const { sha256 } = require("js-sha256");
@@ -5,6 +6,7 @@ const { updateUrl, getItemByUrl, addUrl, removeAllUrl, removeInactiveUrl } = req
 const { removeWordsByIndexUrl,insertWords, removeAllWords } = require("./models/index-url-words");
 const { composeContent } = require('./makets/contents');
 const { isNeedProcess, startedProcess, finishedProcess, updateProcess } = require('./models/settings');
+const { logToConsole } = require('./utils/utils')
 
 const wordRE=/[а-яА-ЯёЁa-zA-Z]{4,}/g;
 
@@ -90,12 +92,13 @@ const processURL = async (urlInfo) => {
 (async function() {
     const isNeedIndexing = await isNeedProcess('indexing');
     if(isNeedIndexing && isNeedIndexing.length > 0) {
+        logToConsole(`Started indexing...`);
         await startedProcess('indexing');
         let urls=await getUrls();
 
     
-        await removeAllUrl();
-        await removeAllWords();
+        //await removeAllUrl();
+        //await removeAllWords();
     
         const updatData = {actual_flag: 0}
     
@@ -110,6 +113,7 @@ const processURL = async (urlInfo) => {
         await removeInactiveUrl();
         await finishedProcess('indexing');
         await updateProcess('sitemap');
+        logToConsole(`finished indexing`);
     }
-
+    return process.exit(22);
 })();

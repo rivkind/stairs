@@ -1,12 +1,15 @@
+require('dotenv').config()
 const { getUrls } = require("./utils/urlUtils");
 const { getAllUrl } = require("./models/index-url");
 const { isNeedProcess, startedProcess, finishedProcess, updateProcess } = require('./models/settings');
 const fsp = require('fs').promises; // используем экспериментальное API работы с файлами, основанное на промисах
 const path = require("path");
+const { logToConsole } = require('./utils/utils');
 
 (async function () {
     const isNeedSitemap = await isNeedProcess('sitemap');
     if(isNeedSitemap && isNeedSitemap.length > 0) {
+        logToConsole(`started create sitemap`);
         await startedProcess('sitemap');
         const urls=await getUrls();
 
@@ -33,15 +36,17 @@ const path = require("path");
 
         try {
             await fsp.writeFile(path.resolve(__dirname,"sitemap.xml"), sitemap);
-            console.log('sitemap.xml has been saved.');
+            logToConsole('sitemap.xml has been saved.');
         }
         catch ( err ) {
-            console.log(err);
+            logToConsole(err);
         }
         await finishedProcess('sitemap');
+
+        
 
     }
     
     
-
+    return process.exit(22);
 })();
