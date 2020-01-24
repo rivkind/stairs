@@ -32,7 +32,8 @@ async function indexURLContent(indexUrlId,html) {
 }
 
 const processURL = async (urlInfo) => {
-    const html = await composeContent(urlInfo.data.content, [urlInfo.data]);
+    const htmlTemp = await composeContent(urlInfo.data.content, [urlInfo.data]);
+    const html = htmlTemp.join('');
     /*switch ( urlInfo.groupCode ) {
         case 'news':
             html = await composeMaket(urlInfo.data.content, [urlInfo.data]); 
@@ -71,15 +72,17 @@ const processURL = async (urlInfo) => {
         const indexUrlId=indexUrls[0].id;
 
         let updateData = {
+            title: urlInfo.data.title,
+            description: urlInfo.data.description,
             actual_flag: 1,
             last_render_dt: new Date(),
         }
         await updateUrl(updateData, {id: indexUrlId})
-        
+
         if ( indexUrls[0].html_crc!==htmlCRC ) {
+            
             await indexURLContent(indexUrlId,html);
             updateData = {
-                title: urlInfo.data.title,
                 html_crc: htmlCRC,
                 last_modification_dt: new Date(),
             }
