@@ -20,7 +20,7 @@ var archive = archiver('zip', {
 });
 
 output.on('close', function() {
-  logToConsole(" Выполнена архивация папки изображений");
+  logToConsole(`Success backup images ${fileNameBackup}`);
   
 });
 
@@ -61,6 +61,8 @@ exec(`mysqldump -u${exportFrom.user} -p${exportFrom.password} -h${exportFrom.hos
 	if (err) { 
     logToConsole(`exec error: ${err}`);
     return; 
+  }else{
+    logToConsole(`Success backup db ${fileNameDump}`);
   }
 });
 
