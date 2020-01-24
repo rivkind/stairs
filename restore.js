@@ -57,7 +57,7 @@ try {
         
         dataDb.sort((a,b) => (a.mtime > b.mtime) ? -1 : ((b.mtime > a.mtime) ? 1 : 0));
         
-        exec(`mysql -u${exportFrom.user} -p${exportFrom.password} -h${exportFrom.host} < ${dataDb[0].filePathDb}`, (err, stdout, stderr) => {
+        exec(`mysql -u${importFrom.user} -p${importFrom.password} -h${importFrom.host} < ${dataDb[0].filePathDb}`, (err, stdout, stderr) => {
                 if (err) { 
             logToConsole(`exec error: ${err}`);
             return; 
