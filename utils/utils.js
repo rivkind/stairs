@@ -30,6 +30,14 @@ const textMailWelcome = (token) => {
     return `Для подтверждения регистрации перейдите по следующей ссылке http://localhost:8881/users/confirm/${token}`
 }
 
+const logToConsole = (text) => {
+    const logDT=new Date();
+    let time=logDT.toLocaleDateString()+" "+logDT.toLocaleTimeString();
+    let fullLogLine=time+" " + text;
+
+    console.log(fullLogLine); // выводим сообщение в консоль
+}
+
 
 
 
@@ -37,5 +45,6 @@ const textMailWelcome = (token) => {
 module.exports={
     arrayToHash,
     removeTags,
-    textMailWelcome
+    textMailWelcome,
+    logToConsole
 };

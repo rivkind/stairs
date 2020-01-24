@@ -2,6 +2,7 @@
 /static/img
 /backup
 /uploads
+/logs
 .env
 sitemap.xml
 requests.rest
