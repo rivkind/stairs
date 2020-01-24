@@ -17,8 +17,13 @@ const isNeedProcess = async (name) => {
         name,
         value: NEED_PROCESS
     }
-
-    return await select( TABLE_NAME, whereData );
+    try {
+        return await select( TABLE_NAME, whereData );
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+    
 }
 
 const finishedProcess = async (name) => {
