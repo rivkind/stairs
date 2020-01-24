@@ -95,6 +95,7 @@ const processURL = async (urlInfo) => {
 (async function() {
     console.log('sdsdfdf');
     const isNeedIndexing = await isNeedProcess('indexing');
+    console.log(isNeedIndexing);
     if(isNeedIndexing && isNeedIndexing.length > 0) {
         logToConsole(`Started indexing...`);
         await startedProcess('indexing');
