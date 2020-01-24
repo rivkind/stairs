@@ -3,10 +3,10 @@ const knex = require('knex');
 const dbClient = knex({
     client: 'mysql',
     connection: {
-        host : process.env.DB_HOST,
-        user : process.env.DB_USER,
-        password : process.env.DB_PASSWORD,
-        database : process.env.DB_NAME,
+        host : 'localhost',
+        user : 'root',
+        password : '1234',
+        database : 'stairs',
     },
     pool: { min: 0, max: 10 },
     useNullAsDefault: true,
