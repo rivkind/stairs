@@ -33,7 +33,7 @@ router.get('/add', async (req, res) => {
         const stcr = {
             Main: {data:[], name: "Content_block", comment: "Main"}
         };
-        res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), types,proirity, changeFreq, images: JSON.stringify(images) });
+        res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), types,priority, changeFreq, images: JSON.stringify(images) });
     } catch (error) {
         console.log(error);
         res.render('admin/error', {layout: 'admin'});
