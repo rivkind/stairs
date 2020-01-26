@@ -4,44 +4,40 @@ const handlebars = require('handlebars');
 
 const { getImageById } = require('../models/images');
 const { getListNews } = require('../models/news');
+const { getMenu } = require('../models/pages');
 
-const composeBlock_HeaderH1 = async (blockAttributes) => {
-    return `<h1>${blockAttributes.text}</h1>`;
-}
+const composeBlock_HeaderH1 = async (blockAttributes) => await composeHTML('h1.hbs',{text: blockAttributes.text});
 
-const composeBlock_HeaderH2 = async (blockAttributes) => {
-    return `<h2>${blockAttributes.text}</h2>`;
-}
+const composeBlock_HeaderH2 = async (blockAttributes) => await composeHTML('h2.hbs',{text: blockAttributes.text});
 
-const composeBlock_HeaderH3 = async (blockAttributes) => {
-    return `<h3>${blockAttributes.text}</h3>`;
-}
+const composeBlock_HeaderH3 = async (blockAttributes) => await composeHTML('h3.hbs',{text: blockAttributes.text});
 
-const composeBlock_HeaderH4 = async (blockAttributes) => {
-    return `<h4>${blockAttributes.text}</h4>`;
-}
+const composeBlock_HeaderH4 = async (blockAttributes) => await composeHTML('h4.hbs',{text: blockAttributes.text});
 
-const composeBlock_HeaderH5 = async (blockAttributes) => {
-    return `<h5>${blockAttributes.text}</h5>`;
-}
+const composeBlock_HeaderH5 = async (blockAttributes) => await composeHTML('h5.hbs',{text: blockAttributes.text});
 
-const composeBlock_HeaderH6 = async (blockAttributes) => {
-    return `<h6>${blockAttributes.text}</h6>`;
-}
+const composeBlock_HeaderH6 = async (blockAttributes) => await composeHTML('h6.hbs',{text: blockAttributes.text});
+
+const composeBlock_Header = async (appData) => await composeHTML('header.hbs',{text: appData[0].title});
+
+const composeBlock_Search = async () => await composeHTML('search.hbs');
+
+const composeBlock_Content = async (blockAttributes) => `<div>${blockAttributes.join("\n")}</div>`;
+
+const composeBlock_FormattedText = async (blockAttributes) => `<div>${blockAttributes.text}</div>`;
 
 const composeBlock_Image = async (blockAttributes) => {
     const imageId=blockAttributes.image;
     if ( !imageId )
         return "";
+    try {
+        let url=await getImageById(+imageId);
+    } catch (error) {
+        console.log(error);
+        return "";
+    }
 
-
-    let imageRow=await getImageById(+imageId);
-    
-    return `<img src='${imageRow[0].url}' style='display: block; max-width: 400px'>`;
-}
-
-const composeBlock_Content = async (blockAttributes) => {
-    return `<div>${blockAttributes.join("\n")}</div>`;
+    return await composeHTML('img.hbs',{url});
 }
 
 const composeBlock_ContentBlock = async (blocks) => {
@@ -49,85 +45,44 @@ const composeBlock_ContentBlock = async (blocks) => {
     return `<div class="row">${blocks.map( html => `<div class="col-${col}">${html.join("\n")}</div>` ).join("\n")}</div>`;
 }
 
-const composeBlock_FormattedText = async (blockAttributes) => {
-    return `<div>${blockAttributes.text}</div>`;
-}
-
-const composeBlock_Header = async (appData) => {
-     return `<h2>${appData[0].title}</h2>`;
-}
-
-async function composeBlock_Search() {
-    return  await fs.readFile(path.join(__dirname,'..', 'templates','partials','search.hbs'),"utf8");
-}
-
-async function composeBlock_Menu(req) {
+const composeBlock_Menu = async (req) => {
     const user = (req && req.session && req.session.user)? req.session.user : null;
-    
-    const viewString = await fs.readFile(path.join(__dirname,'..', 'templates','partials','menu.hbs'),"utf8");
+    try {
+        const menu = await getMenu(req);
+        return await composeHTML('menu.hbs',{ session: (user && user.length > 0), menu });
+    } catch (error) {
+        console.log(error);
+        return '';
+    }
+}
+
+const composeBlock_News = async () => {
+    try {
+        const news = await getListNews(3);
+        return await composeHTML('news_top.hbs',{ news });
+    } catch (error) {
+        console.log(error);
+        return '';
+    }
+}
+
+const composeBlock_News_All = async () => {
+    try {
+        const news = await getListNews();
+        return await composeHTML('news.hbs',{ news });
+    } catch (error) {
+        console.log(error);
+        return '';
+    }
+}
+
+const composeHTML = async (template, data = {}) => {
+    const viewString = await fs.readFile(path.join(__dirname,'..', 'templates','blocks',template),"utf8");
     const viewTemplate = handlebars.compile(viewString);
-    
-    
-    const viewHTML = viewTemplate({
-        session: (user && user.length > 0),
-    });
+    const viewHTML = viewTemplate(data);
     return viewHTML;
 }
 
-async function composeBlock_News() {
-    const news = await getListNews(3);
-    const viewString = await fs.readFile(path.join(__dirname,'..', 'templates','partials','news_top.hbs'),"utf8");
-    const viewTemplate = handlebars.compile(viewString);
-    const viewHTML = viewTemplate({
-        news: news,
-    });
-    return viewHTML;
-}
-
-/*
-
-async function composeBlock_Image(coreData,appData,blockAttributes) {
-
-    const imageId=blockAttributes.image;
-    if ( !imageId )
-        return "";
-
-    let imageRow=await selectQueryRowFactory(coreData.connection, `
-        select url
-        from images
-        where id=?
-    ;`, [imageId]);
-
-    return `<img src='${imageRow.url}' style='display: block; max-width: 400px'>`;
-}
-
-
-
-async function composeBlock_Contacts(coreData,appData,blockAttributes) {
-    return `
-Наши контакты: тел. 233-322-233-322<br>
-Лучшие страницы: <a href="/main">главная страница</a> <a href="/news">новости</a>
-`;
-}
-
-async function composeBlock_News(coreData,appData,blockAttributes) {
-
-    let news=await selectQueryFactory(coreData.connection, `
-        select url_code, header
-        from news
-    ;`, []);
-
-    return `
-<h3>НОВОСТИ:</h3>
-${news.map( newRow => `<a href="/new/${newRow.url_code}">${newRow.header}</a>` ).join("<br>")}
-    `;
-}
-
-async function composeBlock_URLNew_Header(coreData,appData,blockAttributes) {
-    return `<h1>${appData.newInfo.header}</h1>`;
-}
-
-*/
 module.exports={
     composeBlock_HeaderH1,
     composeBlock_HeaderH2,
@@ -142,5 +97,6 @@ module.exports={
     composeBlock_Image,
     composeBlock_Search,
     composeBlock_Menu,
-    composeBlock_News
+    composeBlock_News,
+    composeBlock_News_All
 };

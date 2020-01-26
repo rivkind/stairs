@@ -62,8 +62,7 @@ const contentBlock = (data, index, length, block) => {
     const txt = (data.image)? data.image : data.text;
     let html = `<div class="block-menu">
                     <div>${data.type}</div>`;
-                    
-    if(data.type !== 'CONTENT' && data.type !== 'COLUMN_BLOCK' && data.type !== 'HEADER' && data.type !== 'MENU') html += `<i class="fas fa-pen" title="Редактировать" onClick="editHandler('${block}', ${index})"></i>`;
+     if(isBtbEdit(data.type)) html += `<i class="fas fa-pen" title="Редактировать" onClick="editHandler('${block}', ${index})"></i>`;
     if(data.type === 'COLUMN_BLOCK') html += `<i class="fas fa-plus" title="Добавить колонку" onClick="columnHandler('${block}', ${index})"></i>`;               
     if(index !== 0) html += `<i class="fas fa-arrow-up" title="Переместить вверх" onClick="orderHandler('${block}', ${index}, -1)"></i>`;
     if(index !== (length-1)) html += `<i class="fas fa-arrow-down" title="Переместить вниз" onClick="orderHandler('${block}', ${index}, 1)"></i>`;
@@ -72,6 +71,11 @@ const contentBlock = (data, index, length, block) => {
             ${getContent(data.type,txt)}`;
 
     return html;
+}
+
+const isBtbEdit = (type) => {
+    const arr = ['CONTENT','COLUMN_BLOCK','HEADER','MENU','NEWS_LIST','NEWS_ALL','SEARCH'];
+    return (!arr.includes(type))
 }
 
 const removeBlock = (block, i) => {
@@ -153,6 +157,9 @@ const getContent = (type,text) => {
         case 'NEWS_LIST':
             return `<div>Список новостей</div>`;
             break;
+        case 'NEWS_ALL':
+            return `<div>Все новости</div>`;
+            break;
         case 'MENU':
                 return `<div>Меню</div>`;
                 break;
@@ -222,6 +229,13 @@ const addContent = (type ,text = '') => {
             blocks[blockId].data.push({
                 type,
                 text: 'Список новостей'
+            });
+            createMakets();
+            break;
+        case 'NEWS_ALL':
+            blocks[blockId].data.push({
+                type,
+                text: 'Список всех новостей'
             });
             createMakets();
             break;

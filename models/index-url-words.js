@@ -1,19 +1,11 @@
 const { insert, remove, selectIn } = require('../utils/dbQuery');
 const TABLE_NAME = 'index_urls_words';
 
+const removeWordsByIndexUrl = async (index_url) => await remove(TABLE_NAME,{index_url})
 
-const removeWordsByIndexUrl = async (index_url) => {
-    await remove(TABLE_NAME,{index_url})
-}
+const insertWords = async (data) => await insert(TABLE_NAME,data)
 
-const insertWords = async (data) => {
-    await insert(TABLE_NAME,data)
-}
-
-
-const removeAllWords = async () => {
-    await remove(TABLE_NAME);
-}
+const removeAllWords = async () => await remove(TABLE_NAME);
 
 const searchWord = async (searchPhrase) => {
     const wordRE=/[а-яА-ЯёЁa-zA-Z]{4,}/g;
@@ -44,14 +36,10 @@ const searchWord = async (searchPhrase) => {
         results.push( { index_url, relev:(spHitsRow.sp_uniq_hits*10+spHitsRow.sp_hits*1) } );
     }
 
-    // сортируем результаты по релевантности
     results.sort( (r1,r2) => r2.relev-r1.relev );
 
     return results;
-
-    
 }
-
 
 module.exports = {
     insertWords,

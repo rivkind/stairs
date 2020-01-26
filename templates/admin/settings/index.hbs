@@ -1,0 +1,24 @@
+<form id="form" method="post">
+    <table class="table">
+        <tbody>
+            {{#each s}}
+            <tr>
+            <th>{{type}}</th>
+            <td>
+            {{#if form}}
+                {{#if value}}
+                    <input type="checkbox" class="form-check-input" id="checkFull" name="{{name}}" value="1" checked />
+                {{else}}
+                    <input type="checkbox" class="form-check-input" id="checkFull" name="{{name}}" value="1" />
+                {{/if}}
+            {{else}}
+                {{text}}
+            {{/if}}
+                
+            </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <button class="btn btn-primary mt-4" id="btnSave">Сохранить</button></form>
+</form>

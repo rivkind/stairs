@@ -4,29 +4,13 @@ const Jimp = require('jimp');
 const path = require('path');
 const fs = require('fs');
 
-const getImages = async () => {
+const getImages = async () => await select(TABLE_NAME);
+    
+const getImageById = async (id) => await select(TABLE_NAME, {id});
 
-    return await select(TABLE_NAME);
-}
+const getImageByCode = async (code) => await select(TABLE_NAME, {code});
 
-const getImageById = async (id) => {
-
-    const where ={id}
-
-    return await select(TABLE_NAME, where);
-}
-
-const getImageByCode = async (code) => {
-
-    const where ={code}
-
-    return await select(TABLE_NAME, where);
-}
-
-const deleteTmpFile = (file) => {
-    const tmp_path = file.path;
-    fs.unlink(tmp_path, (err)=>console.log(err));
-}
+const deleteTmpFile = (file) => fs.unlink(file.path, (err)=>{if(err) console.log(err)});
 
 const updateImages = async (body,file, imageOld) => {
     const {id, url} = imageOld;
@@ -35,23 +19,19 @@ const updateImages = async (body,file, imageOld) => {
         
         if(Object.keys(file).length !== 0) {
             try {
-                const f = file.image[0];
-                const uploadFile = await processFile(f, code);
+                const uploadFile = await processFile(file.image[0], code);
 
                 const data = {
                     code: code || null,
                     url: uploadFile.url
                 }
-                update(TABLE_NAME,data,{id})
-                .then(res=>{
+                update(TABLE_NAME,data,{id}).then(res=>{
                     const arr = url.split('/');
                     const remove_path = path.join(__dirname,"..","static",arr[1],arr[2]);
                     fs.unlink(remove_path, (err)=>reject(err))
                     resolve(res)
-                })
-                .catch(err=>fs.unlink(uploadFile.path, (err)=>reject(err)));
+                }).catch(err=>fs.unlink(uploadFile.path, (err)=>reject(err)));
             } catch (error) {
-                console.log(error);
                 reject(error)
             }
         } else {
@@ -61,7 +41,6 @@ const updateImages = async (body,file, imageOld) => {
             } catch (error) {
                 reject(error)
             }
-            
         }
     });
 }

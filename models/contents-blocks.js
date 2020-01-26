@@ -1,7 +1,6 @@
 const { insert, select, selectInnerJoin } = require('../utils/dbQuery');
 const TABLE_NAME = 'contents_blocks';
 
-
 const addBlocksFromContents = async (stcr, contents, types) => {
     for (let prop in stcr) {
         if(stcr[prop].data.length > 0) {

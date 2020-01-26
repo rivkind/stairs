@@ -1,8 +1,8 @@
+/backup
+/logs
 /node_modules
 /static/img
-/backup
 /uploads
-/logs
 .env
 sitemap.xml
 requests.rest

@@ -1,10 +1,10 @@
-require('dotenv').config()
 const { getUrls } = require("./utils/urlUtils");
 const { removeTags } = require("./utils/utils");
 const { sha256 } = require("js-sha256");
 const { updateUrl, getItemByUrl, addUrl, removeAllUrl, removeInactiveUrl } = require("./models/index-url");
 const { removeWordsByIndexUrl,insertWords, removeAllWords } = require("./models/index-url-words");
 const { composeContent } = require('./makets/contents');
+const { composeMaket } = require('./makets/index');
 const { isNeedProcess, startedProcess, finishedProcess, updateProcess } = require('./models/settings');
 const { logToConsole } = require('./utils/utils')
 
@@ -32,16 +32,22 @@ async function indexURLContent(indexUrlId,html) {
 }
 
 const processURL = async (urlInfo) => {
-    const htmlTemp = await composeContent(urlInfo.data.content, [urlInfo.data]);
-    const html = htmlTemp.join('');
-    /*switch ( urlInfo.groupCode ) {
-        case 'news':
-            html = await composeMaket(urlInfo.data.content, [urlInfo.data]); 
-            break;
-        case 'page':
-            html = await composeMaket(1, [urlInfo.data]); 
-            break;
-    }*/
+    let html = '';
+    const full = await isNeedProcess('index_full');
+    if(full && full.length > 0) {
+        switch ( urlInfo.groupCode ) {
+            case 'news':
+                
+                html = await composeMaket(2, [urlInfo.data]); 
+                break;
+            case 'page':
+                html = await composeMaket(1, [urlInfo.data]); 
+                break;
+        }
+    } else {
+        const htmlTemp = await composeContent(urlInfo.data.content, [urlInfo.data]);
+        const html = htmlTemp.join('');
+    }
     const htmlCRC=sha256(html);
     const titleRes=/<title>(.+)<\/title>/.exec(html);
     const title=titleRes ? titleRes[1] : "";
@@ -55,6 +61,8 @@ const processURL = async (urlInfo) => {
             url: urlInfo.url,
             title: urlInfo.data.title,
             description: urlInfo.data.description,
+            changefreq: urlInfo.data.changefreq,
+            priority: urlInfo.data.priority,
             group_code: urlInfo.groupCode,
             group_params: JSON.stringify(urlInfo.groupParams),
             html_crc: htmlCRC,
@@ -74,6 +82,8 @@ const processURL = async (urlInfo) => {
         let updateData = {
             title: urlInfo.data.title,
             description: urlInfo.data.description,
+            changefreq: urlInfo.data.changefreq,
+            priority: urlInfo.data.priority,
             actual_flag: 1,
             last_render_dt: new Date(),
         }

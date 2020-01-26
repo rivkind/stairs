@@ -1,4 +1,4 @@
-<form id="form" method="post"><input type="hidden" id="structure" name="structure" />
+<form id="form" method="post"><input type="hidden" id="structure" name="structure" value="{{news.structure}}" />
 <div class="form-group">
     <label for="title">Заголовок</label>
     <input type="text" class="form-control" name="title" id="title" value="{{news.title}}">
@@ -15,10 +15,36 @@
     <label for="title">Ссылка</label>
     <input type="text" class="form-control" name="url" id="url" value="{{news.url}}">
 </div>
+<div class="form-group">
+    <label for="formControlSelect">Периодичность индексации поисковиками</label>
+    <select class="form-control" id="formControlSelect" name="changefreq">
+      {{#each changeFreq}}
+      {{#if default}}
+      <option value="{{value}}" selected>{{value}}</option>
+      {{else}}
+      <option value="{{value}}">{{value}}</option>
+      {{/if}}
+      {{/each}}
+      
+    </select>
+</div>
+<div class="form-group">
+    <label for="formControlSelect">Приоритет</label>
+    <select class="form-control" id="formControlSelect" name="priority">
+      {{#each priority}}
+      {{#if default}}
+      <option value="{{value}}" selected>{{value}}</option>
+      {{else}}
+      <option value="{{value}}">{{value}}</option>
+      {{/if}}
+      {{/each}}
+      
+    </select>
+</div>
 
 <div class="form-group">
     <div class="row">
-        <div class="col-7"></div>
+        <div class="col-6"></div>
         <div class="col-2">
             <select id="block"  class="form-control form-control-sm"></select>
         </div>
@@ -28,10 +54,9 @@
                 {{#each types}}
                 <option value="{{code}}">{{name}}</option>
                 {{/each}}
-                
             </select>
         </div>
-        <div class="col-1">
+        <div class="col-2">
             <button id="button" type="submit" class="btn btn-primary btn-sm">Добавить</button>
         </div>
     </div>
@@ -41,7 +66,7 @@
         <div class="col" id="main"></div>
     </div>
 </div>
-<button class="btn btn-primary" id="btnSave">Сохранить</button></form>
+<button class="btn btn-primary mt-4" id="btnSave">Сохранить</button></form>
 <div class="modal fade" id="modalHeader" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -106,7 +131,6 @@
     const news = true;
     const stre = false;
     let blocks = {{{data}}};
-
 </script>
 <script src="/js/structure.js"></script>
 <script src="/tinymce/tinymce.min.js" referrerpolicy="origin"></script>

@@ -1,11 +1,16 @@
 const {getUserSession} = require('../models/users-session') 
 
-const guestAccess = (req, res, next) => {
+const guestAccess = async (req, res, next) => {
     const { user } = req.session;
     if(user && user.length > 0) {
-        if(getUserSession(user[0])) {
-            res.redirect(302,`/`);
-            return;
+        try {
+           const session = await getUserSession(user[0]);
+            if(session) {
+                res.redirect(302,`/`);
+                return;
+            } 
+        } catch (error) {
+           console.log(error); 
         }
     }
     next();

@@ -1,8 +1,5 @@
 const knex = require('./dbClient'); 
 
-
-
-
 const insert = ( tableName, data ) => {
     return new Promise((resolve,reject)=>{
         knex(tableName).insert(data).then(data => {
@@ -67,17 +64,14 @@ const update = ( tableName, updateData, whereData ={} ) => {
             resolve(data);
         }).catch((err) => reject(err));
     });
-    
 }
 
 const remove = ( tableName, whereData ={} ) => {
-
     return new Promise((resolve,reject)=>{
         knex(tableName).where(whereData).del().then(data => {
             resolve(data);
         }).catch((err) => reject(err));
     });
-    
 }
 
 module.exports = {

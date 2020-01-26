@@ -4,55 +4,39 @@ const TABLE_NAME = 'settings';
 const NEED_PROCESS = 1;
 const START_PROCESS = 2;
 
-const updateProcess = async (name) => {
-    updateData = {
-        value: NEED_PROCESS
-    }
-    return await update( TABLE_NAME, updateData, {name} );
+const getSettings = async (name) => {
+    const settings = await select( TABLE_NAME );
+    const newSettings = settings.map(s=>{
+        const form = (s.name == 'index_full');
+        let text = 'актуальное состояние';
+        if(s.name == 'indexing' && s.value) text = 'В ближайшие 10 минут будет переиндексация...';
+        if(s.name == 'sitemap' && s.value) text = 'В ближайшие 20 минут будет персоздан sitemap';
+
+        return {
+            ...s,
+            form,
+            text,
+            value: (s.value)? true : false
+        }
+    });
+    return newSettings;
 }
 
-const isNeedProcess = async (name) => {
+const updateSettings = async (value, name) => await update( TABLE_NAME, { value }, {name} );
 
-    const whereData = {
-        name,
-        value: NEED_PROCESS
-    }
-    try {
-        return await select( TABLE_NAME, whereData );
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-    
-}
+const updateProcess = async (name) => await update( TABLE_NAME, { value: NEED_PROCESS }, {name} );
 
-const finishedProcess = async (name) => {
+const isNeedProcess = async (name) => await select( TABLE_NAME, { name, value: NEED_PROCESS } );
 
-    const whereData = {
-       name,
-       value: START_PROCESS
-    };
-    updateData = {
-        value: 0
-    }
-    return await update( TABLE_NAME, updateData, whereData );
-}
+const finishedProcess = async (name) => await update( TABLE_NAME, {value: 0}, {name, value: START_PROCESS} );
 
-const startedProcess = async (name) => {
-
-    const whereData = {
-       name,
-       value: NEED_PROCESS
-    };
-    updateData = {
-        value: START_PROCESS
-    }
-    return await update( TABLE_NAME, updateData, whereData );
-}
+const startedProcess = async (name) => await update( TABLE_NAME, {value: START_PROCESS}, {name, value: NEED_PROCESS} );
 
 module.exports = {
     startedProcess,
     finishedProcess,
     isNeedProcess,
-    updateProcess
+    updateProcess,
+    getSettings,
+    updateSettings
 }

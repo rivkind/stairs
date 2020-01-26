@@ -1,16 +1,24 @@
 <table class="table">
   <thead>
     <tr>
-      <td align="right"><a href="/admin/pages/add" class="btn btn-primary">Добавить страницу</a></td>
+      <td align="right" colspan="5"><a href="/admin/pages/add" class="btn btn-primary">Добавить страницу</a></td>
     </tr>
     <tr>
       <th scope="col">Name</th>
+      <th scope="col">Url</th>
+      <th scope="col">Menu</th>
+      <th scope="col">Auth</th>
+      <th scope="col">Order</th>
     </tr>
   </thead>
   <tbody>
       {{#each items}}
      <tr>
       <td><a href="/admin/pages/{{url}}">{{title}}</a></td>
+      <td>{{url}}</td>
+      <td>{{isMenu}}</td>
+      <td>{{auth}}</a></td>
+      <td>{{ord}}</a></td>
     </tr>
 {{/each}}
   </tbody>

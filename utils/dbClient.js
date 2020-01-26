@@ -5,7 +5,7 @@ const dbClient = knex({
     connection: {
         host : 'localhost',
         user : 'root',
-        password : '1234',
+        password : '',
         database : 'stairs',
     },
     pool: { min: 0, max: 10 },
