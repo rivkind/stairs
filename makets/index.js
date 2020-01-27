@@ -27,7 +27,7 @@ const composeMaket = async (stre, appData, req = null) => {
                 }
               })
               .catch(error => {
-                console.error(`Error in promises`, error);
+                logLineAsync(`Error in promises`, error);
                 return false
               });
       if(contents) {
@@ -45,7 +45,7 @@ const composeMaket = async (stre, appData, req = null) => {
         layoutString = layoutString.split("{{{footer}}}").join(contents.footer);
       } else throw Error();
     } catch (error) {
-      console.error(error);
+      logLineAsync(error);
       layoutString = "Ошибка";
     }
     

@@ -97,7 +97,7 @@ const composeContent = async (contentId,appData, req) => {
             contentHTMLs.push(blockHTML);
         }
     } catch (error) {
-        console.error(error);
+        logLineAsync(error);
     }
     return contentHTMLs;
 }
