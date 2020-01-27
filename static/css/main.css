@@ -1,3 +1,5 @@
 header nav {
     background-color: cornflowerblue !important;
 }
+
+.active {color: #ccc;}

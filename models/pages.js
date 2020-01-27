@@ -10,8 +10,8 @@ const getMenu = async (req) => {
     const menus = await select(TABLE_NAME,whereData,null,[['ord','asc']]);
     const urlOriginal = (req)? req.originalUrl.slice(1) : '';
     const newMenu = menus.map(menu=>{
-        const active = (urlOriginal === menu.url);
-        const url = (menu.url === 'main')? '/' : menu.url;
+        const active = (urlOriginal === menu.url || (urlOriginal === '' && menu.url === 'main'));
+        const url = (menu.url === 'main')? '/' : '/'+menu.url;
         return {
             ...menu,
             active,
