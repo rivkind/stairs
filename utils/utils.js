@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs').promises;
 const os = require('os');
 const logFN = path.join(__dirname,'..','logs', '_server.log');
 
