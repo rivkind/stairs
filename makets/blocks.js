@@ -32,13 +32,14 @@ const composeBlock_Image = async (blockAttributes) => {
     if ( !imageId )
         return "";
     try {
-        let url=await getImageById(+imageId);
+        const url=await getImageById(+imageId);
+        return await composeHTML('img.hbs',{url: url[0].url});
     } catch (error) {
         logLineAsync(error);
         return "";
     }
 
-    return await composeHTML('img.hbs',{url});
+    
 }
 
 const composeBlock_ContentBlock = async (blocks) => {
