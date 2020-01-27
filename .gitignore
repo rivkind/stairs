@@ -3,6 +3,7 @@
 /node_modules
 /static/img
 /uploads
+/nginx_caches
 .env
 sitemap.xml
 requests.rest
