@@ -3,6 +3,7 @@ const path = require('path');
 const multer = require('multer');
 const { getImages, addImages, getImageByCode, deleteTmpFile, updateImages } = require('../../models/images');
 const message = require('../../config/message')
+const { logLineAsync } = require('../../utils/utils'); 
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
         const images = await getImages();
         res.render(`${slug}/index`, {layout: 'admin', items: images});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -42,7 +43,7 @@ router.post('/add',upload.fields( [ {name:'image'} ] ), async (req, res) => {
                 res.redirect(302,`/${slug}`);
             }
         } catch (error) {
-            console.log(error);
+            logLineAsync(error);
             deleteTmpFile(req.files.image[0]);
             res.locals.error = (error.code)? (message[error.code] || message["ER_COMMON_ERROR"]) : error;
             res.render(`${slug}/form`, {layout: 'admin', data: req.body});
@@ -56,7 +57,7 @@ router.get('/:code', async (req, res) => {
         if(image.length === 1) res.render(`${slug}/form`, {layout: 'admin', data: image[0]});
         else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -76,7 +77,7 @@ router.post('/:code',upload.fields( [ {name:'image'} ] ), async (req, res) => {
         req.flash('success', message.SUCCESS_EDIT);
         res.redirect(302,`/${slug}`);
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         if(Object.keys(req.files).length !== 0) deleteTmpFile(req.files.image[0]);
         res.locals.error = (error.code)? (message[error.code] || message["ER_COMMON_ERROR"]) : error;
         res.render(`${slug}/form`, {layout: 'admin', data: imageOld[0]});

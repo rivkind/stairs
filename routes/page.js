@@ -8,6 +8,7 @@ const { searchWord } = require('../models/index-url-words')
 const { getAllUrl } = require('../models/index-url');
 const { arrayToHash } = require('../utils/utils');
 const authAccess = require('../middleware/auth-access');
+const { logLineAsync } = require('../utils/utils');
 
 const router = express.Router();
 const structure = 1;
@@ -52,7 +53,7 @@ router.get('/search', async (req, res) => {
         html = html.split("{{{body}}}").join(viewHTML);
         res.send(html);
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'main'});
     }
     
@@ -76,7 +77,7 @@ router.get('/:urlcode', async (req, res) => {
             }
         }
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'main'});
     }
 });

@@ -1,4 +1,5 @@
-const {getUserSession} = require('../models/users-session') 
+const {getUserSession} = require('../models/users-session')
+const { logLineAsync } = require('../utils/utils'); 
 
 const guestAccess = async (req, res, next) => {
     const { user } = req.session;
@@ -10,7 +11,7 @@ const guestAccess = async (req, res, next) => {
                 return;
             } 
         } catch (error) {
-           console.log(error); 
+            logLineAsync(error); 
         }
     }
     next();

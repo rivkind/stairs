@@ -1,9 +1,7 @@
 const express = require('express');
-const handlebars = require('handlebars');
-const fs = require('fs').promises;
-const path = require('path');
-const { newsByCode, getListNews } = require('../models/news');
+const { newsByCode } = require('../models/news');
 const { composeMaket } = require('../makets');
+const { logLineAsync } = require('../utils/utils');
 
 const router = express.Router();
 const structure = 2;
@@ -21,7 +19,7 @@ router.get('/:urlcode', async (req, res) => {
             res.send(html);
         }
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'main'});
     }
     

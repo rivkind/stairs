@@ -1,5 +1,6 @@
 const {getUserSession} = require('../models/users-session');
-const {isAdmin} = require('../models/users')
+const {isAdmin} = require('../models/users');
+const { logLineAsync } = require('../utils/utils');
 
 const adminAccess = async (req, res, next) => {
     
@@ -13,7 +14,7 @@ const adminAccess = async (req, res, next) => {
             else
                 res.status(403).render('admin/forbidden', {layout: 'main'});
         } catch (error) {
-            console.log(error);
+            logLineAsync(error);
             res.render('admin/error', {layout: 'main'});
         }
     } else

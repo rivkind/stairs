@@ -8,6 +8,7 @@ const { getBlockTypes } = require('../../models/block-types');
 const { addBlocksFromContents, getBlocksByContents } = require('../../models/contents-blocks');
 const { updateProcess } = require('../../models/settings');
 const message = require('../../config/message')
+const { logLineAsync } = require('../../utils/utils'); 
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
         const pages = await getPages();
         res.render(`${slug}/index`, {layout: 'admin', items: pages});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -35,7 +36,7 @@ router.get('/add', async (req, res) => {
         };
         res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), types,priority, changeFreq, images: JSON.stringify(images) });
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -66,7 +67,7 @@ router.post('/add', async (req, res) => {
         req.flash('success', message.SUCCESS_EDIT);
         res.redirect(302,`/${slug}`);
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         if(pages.length > 0) await removePage(pages[0]);
         res.locals.error = (error.code)? (message[error.code] || message["ER_COMMON_ERROR"]) : error;
         const arrImages = await getImages();
@@ -97,7 +98,7 @@ router.get('/:url', async (req, res) => {
             res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), changeFreq, types,priority,  images: JSON.stringify(images), pages: pages[0] });
         } else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -137,7 +138,7 @@ router.post('/:url', async (req, res) => {
         req.flash('success', message.SUCCESS_EDIT);
         res.redirect(302,`/${slug}/${req.body.url}`);
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.locals.error = (error.code)? (message[error.code] || message["ER_COMMON_ERROR"]) : error;
         const arrImages = await getImages();
         const images = arrayToHash(arrImages,"id");

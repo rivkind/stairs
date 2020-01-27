@@ -7,6 +7,7 @@ const { removeContentByStructure, addContent, contentByStructureId } = require('
 const { getBlockTypes } = require('../../models/block-types');
 const { addBlocksFromContents, getBlocksByContents } = require('../../models/contents-blocks');
 const message = require('../../config/message')
+const { logLineAsync } = require('../../utils/utils');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
         const structures = await getStructures();
         res.render(`${slug}/index`, {layout: 'admin', items: structures});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -49,7 +50,7 @@ router.get('/:id', async (req, res) => {
             res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), types, images: JSON.stringify(images) });
         }else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -73,7 +74,7 @@ router.post('/:id', async (req, res) => {
             res.redirect(302,`/${slug}/${id}`);
         }else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });

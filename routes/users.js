@@ -5,7 +5,8 @@ const { addSession } = require('../models/users-session');
 const message = require('../config/message');
 const guestAccess = require('../middleware/guest-access');
 const { sendEmail } = require('../utils/mail')
-const { textMailWelcome } = require('../utils/utils')
+const { textMailWelcome, logLineAsync } = require('../utils/utils')
+
 
 
 const router = express.Router();
@@ -35,7 +36,7 @@ router.get('/confirm/:code',guestAccess, async (req, res) => {
             res.redirect(302,`/users/confirm/unsuccess`);
         }
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'main'});
     }
     
@@ -69,7 +70,7 @@ router.post('/login',guestAccess, async (req, res) => {
         } else
             res.render('login/signin', {layout: 'login', data: req.body, error: message.ERR_REGISTER});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'main'});
     }
 });
@@ -94,7 +95,7 @@ router.post('/register',guestAccess, async (req, res) => {
                 res.redirect(302,`/users/success`);  
             }
         } catch (error) {
-            console.log(error);
+            logLineAsync(error);
             res.status(200).render('login/register', {layout: 'login', data: req.body, error: message.ER_COMMON_ERROR});
         }
         

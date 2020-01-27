@@ -1,5 +1,5 @@
 const express = require('express');
-const { arrayToHash } = require('../../utils/utils');
+const { logLineAsync } = require('../../utils/utils'); 
 
 const { getSettings, updateSettings } = require('../../models/settings');
 const message = require('../../config/message')
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         const s = await getSettings();
         res.render(`${slug}/index`, {layout: 'admin', s});
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
         req.flash('success', message.SUCCESS_EDIT);
         res.redirect(302,`/${slug}`);
     } catch (error) {
-        console.log(error);
+        logLineAsync(error);
         res.render('admin/error', {layout: 'admin'});
     }
 });
