@@ -33,7 +33,7 @@ const composeBlock_Image = async (blockAttributes) => {
     try {
         let url=await getImageById(+imageId);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return "";
     }
 
@@ -51,7 +51,7 @@ const composeBlock_Menu = async (req) => {
         const menu = await getMenu(req);
         return await composeHTML('menu.hbs',{ session: (user && user.length > 0), menu });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return '';
     }
 }
@@ -61,7 +61,7 @@ const composeBlock_News = async () => {
         const news = await getListNews(3);
         return await composeHTML('news_top.hbs',{ news });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return '';
     }
 }
@@ -71,7 +71,7 @@ const composeBlock_News_All = async () => {
         const news = await getListNews();
         return await composeHTML('news.hbs',{ news });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return '';
     }
 }
