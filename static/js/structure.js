@@ -152,7 +152,7 @@ const getContent = (type,text) => {
             return `<div>Заголовок</div>`;
             break;
         case 'IMAGE':
-            return `<img src="${images[text].url}"/>`;
+            return `<img style='max-width:400px' src="${images[text].url}"/>`;
             break;
         case 'NEWS_LIST':
             return `<div>Список новостей</div>`;
@@ -352,7 +352,7 @@ const saveStructure = (e) => {
 }
 
 const changeImages = () => {
-    modalImgBlock.innerHTML = `<img src="${images[selectImages.value].url}"/>`;
+    modalImgBlock.innerHTML = `<img width='200px' src="${images[selectImages.value].url}"/>`;
 }
 
 buttonTextarea.addEventListener("click", saveTextarearBlock);
