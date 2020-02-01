@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Alexey.Rivkind",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
     "isomorphic-fetch": "^2.2.1",
+    "jest": "^25.1.0",
     "jimp": "^0.9.3",
     "js-sha256": "^0.9.0",
     "knex": "^0.20.7",

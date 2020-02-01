@@ -69,7 +69,8 @@ router.get('/:urlcode', async (req, res) => {
         if ( pages.length !== 1 )
             res.status(404).send("Извините, такой страницы не существует!");
         else {
-            if(pages[0].auth && authAccess(req, res))
+            const auth = await authAccess(req, res);
+            if(pages[0].auth && auth)
                 res.redirect(302,`/users/login`);
             else {
                 let html=await composeMaket(structure, pages, req);
