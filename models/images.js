@@ -27,10 +27,17 @@ const updateImages = async (body,file, imageOld) => {
                 }
                 update(TABLE_NAME,data,{id}).then(res=>{
                     const arr = url.split('/');
-                    const remove_path = path.join(__dirname,"..","static",arr[1],arr[2]);
-                    fs.unlink(remove_path, (err)=>reject(err))
+                    if(!uploadFile.path.includes(url)) {
+                        const remove_path = path.join(__dirname,"..","static",arr[1],arr[2]);
+                        fs.unlink(remove_path, (err)=>reject(err))
+                    }
+                    
                     resolve(res)
-                }).catch(err=>fs.unlink(uploadFile.path, (err)=>reject(err)));
+                }).catch(err=>{
+                    if(!uploadFile.path.includes(url)) {
+                        fs.unlink(uploadFile.path, (err)=>reject(err))
+                    }
+                });
             } catch (error) {
                 reject(error)
             }
@@ -90,10 +97,12 @@ const processFile = (file, name) => {
                 }
                 const url = `/img/${name}.${ext}`;
                 
-                const target_path = path.join(__dirname,"..","static",url);
+                const target_path = path.join(__dirname,"..","static",'img',`${name}.${ext}`);
+
                 
                 fs.rename(tmp_target_path, target_path, async function(err) {
                     if (err) {
+                        
                         fs.unlink(tmp_target_path, (err)=>reject(err));
                         reject(err);
                     }else {

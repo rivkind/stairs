@@ -72,7 +72,6 @@ router.post('/:code',upload.fields( [ {name:'image'} ] ), async (req, res) => {
         
         const imageNew = await getImageByCode(req.body.name);
         if(imageNew.length === 1 && imageNew[0].id !== imageOld[0].id ) throw Error(message.ER_DUP_ENTRY);
-        
         await updateImages(req.body, req.files, imageOld[0]);
         req.flash('success', message.SUCCESS_EDIT);
         res.redirect(302,`/${slug}`);
