@@ -1,5 +1,4 @@
 require('dotenv').config()
-//const compression = require('compression');
 const express = require('express');
 const hbs = require( 'express-handlebars');
 
@@ -20,10 +19,8 @@ webserver.engine( 'hbs', hbs( {
     extname: 'hbs',
 }));
 webserver.disable('x-powered-by');
-/*webserver.use(compression({
-    threshold: 512
-}));*/
-//webserver.set('etag', 'strong')
+
+webserver.set('etag', false)
 webserver.set("view engine", "hbs");
 webserver.set("views", "templates");
 webserver.use(cookieParser('secret key'));
