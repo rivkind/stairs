@@ -22,7 +22,7 @@ router.get('/search', async (req, res) => {
             let indexUrlsIndex=arrayToHash(indexUrls,'id');
             results.forEach( result => {
                 result.title=indexUrlsIndex[result.index_url].title;
-                result.url=indexUrlsIndex[result.index_url].url;
+                result.url= (indexUrlsIndex[result.index_url].url == '/main')? '/': indexUrlsIndex[result.index_url].url;
                 result.description=indexUrlsIndex[result.index_url].description;
                 if(indexUrlsIndex[result.index_url].group_code == 'news') {
                     result.group_code=indexUrlsIndex[result.index_url].group_code;
