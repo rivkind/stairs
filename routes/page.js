@@ -54,7 +54,7 @@ router.get('/search', async (req, res) => {
         res.send(html);
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'main'});
+        res.status(500).render('admin/error', {layout: 'main'});
     }
     
 });
@@ -79,7 +79,7 @@ router.get('/:urlcode', async (req, res) => {
         }
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'main'});
+        res.status(500).render('admin/error', {layout: 'main'});
     }
 });
 

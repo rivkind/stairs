@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         res.render(`${slug}/index`, {layout: 'admin', items: news});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 
@@ -37,7 +37,7 @@ router.get('/add', async (req, res) => {
         res.render(`${slug}/form`, {layout: 'admin', data: JSON.stringify(stcr), types,priority, changeFreq, images: JSON.stringify(images) });
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 
@@ -97,7 +97,7 @@ router.get('/:url', async (req, res) => {
         } else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 

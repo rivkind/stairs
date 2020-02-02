@@ -37,7 +37,7 @@ router.get('/confirm/:code',guestAccess, async (req, res) => {
         }
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'main'});
+        res.status(500).render('admin/error', {layout: 'main'});
     }
     
 });
@@ -71,7 +71,7 @@ router.post('/login',guestAccess, async (req, res) => {
             res.render('login/signin', {layout: 'login', data: req.body, error: message.ERR_REGISTER});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'main'});
+        res.status(500).render('admin/error', {layout: 'main'});
     }
 });
 

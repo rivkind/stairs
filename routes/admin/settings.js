@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
         res.render(`${slug}/index`, {layout: 'admin', s});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
         res.redirect(302,`/${slug}`);
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 

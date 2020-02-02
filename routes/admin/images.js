@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         res.render(`${slug}/index`, {layout: 'admin', items: images});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 
@@ -58,7 +58,7 @@ router.get('/:code', async (req, res) => {
         else res.status(404).render('admin/error', {layout: 'admin'});
     } catch (error) {
         logLineAsync(error);
-        res.render('admin/error', {layout: 'admin'});
+        res.status(500).render('admin/error', {layout: 'admin'});
     }
 });
 
