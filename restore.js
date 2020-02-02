@@ -2,6 +2,7 @@ var unzip = require('unzipper')
 var fs = require('fs');
 const path = require('path');
 const { logToConsole } = require('./utils/utils')
+const db = require('./config/db')
 
 const dirPath = path.join(__dirname,'backup','img');
 const filePathOut = path.join(__dirname,'static','img');
@@ -30,13 +31,6 @@ try {
         logToConsole(`Error restore images: ` + error);
  }
 
- let importFrom = {
-	host: "localhost",
-	user: "root",
-	password: "1234",
-	database: "stairs"
-
-}
 const { exec } = require('child_process');
 
 const dirPathDb = path.join(__dirname,'backup','db');
@@ -57,7 +51,7 @@ try {
         
         dataDb.sort((a,b) => (a.mtime > b.mtime) ? -1 : ((b.mtime > a.mtime) ? 1 : 0));
         
-        exec(`mysql -u${importFrom.user} -p${importFrom.password} -h${importFrom.host} < ${dataDb[0].filePathDb}`, (err, stdout, stderr) => {
+        exec(`mysql -u${db.user} -p${db.password} -h${db.host} < ${dataDb[0].filePathDb}`, (err, stdout, stderr) => {
                 if (err) { 
             logToConsole(`exec error: ${err}`);
             return; 

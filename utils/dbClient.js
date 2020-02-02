@@ -1,13 +1,9 @@
 const knex = require('knex');
+const db = require('../config/db')
 
 const dbClient = knex({
     client: 'mysql',
-    connection: {
-        host : 'localhost',
-        user : 'root',
-        password : '1234',
-        database : 'stairs',
-    },
+    connection: db,
     pool: { min: 0, max: 10 },
     useNullAsDefault: true,
     //debug: true
