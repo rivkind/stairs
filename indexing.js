@@ -46,7 +46,7 @@ const processURL = async (urlInfo) => {
         }
     } else {
         const htmlTemp = await composeContent(urlInfo.data.content, [urlInfo.data]);
-        const html = htmlTemp.join('');
+        html = htmlTemp.join('');
     }
     const htmlCRC=sha256(html);
     const titleRes=/<title>(.+)<\/title>/.exec(html);
